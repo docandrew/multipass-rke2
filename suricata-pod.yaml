@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: suricata-pod
+  annotations:
+    k8s.v1.cni.cncf.io/networks: |
+      [
+        {
+          "name": "host-device-capture-conf",
+          "interface": "capture0"
+        }
+      ]
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: node1
+  
+  # Workaround for capture interface being DOWN inside the pod.
+  initContainers:
+  - name: init-capture
+    image: busybox
+    command: ["/bin/sh", "-c", "ip link set capture0 up"]
+    securityContext:
+      capabilities:
+        add:
+          - "NET_ADMIN"
+  
+  containers:
+  - name: suricata
+    image: jasonish/suricata:6.0.9
+    args: ["-i", "capture0"]
+    securityContext:
+      capabilities:
+        add:
+          - "NET_ADMIN"
+          - "NET_RAW"
+          - "SYS_NICE"
