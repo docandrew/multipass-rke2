@@ -1,0 +1,18 @@
+#cloud-config
+# Cloud Config for an RKE2 Server
+
+# Disable swap partition
+mounts:
+  - [ swap, null ]
+
+runcmd:
+  # Make sure swap is disabled
+  - swapoff -a
+
+  # Fetch RKE2 image
+  - echo "Running RKE2 Installer"
+  - 'curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION="v1.26.3+rke2r1" sh -'
+  - echo "Starting node as a server"
+  - systemctl enable rke2-server.service
+  - systemctl start rke2-server.service
+  - echo "Done"

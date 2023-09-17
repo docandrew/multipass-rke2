@@ -1,0 +1,19 @@
+#cloud-config
+# Cloud Config for an RKE2 Agent node
+
+# Disable swap partition
+mounts:
+  - [ swap, null ]
+
+runcmd:
+  # Make sure swap is disabled
+  - swapoff -a
+
+  # Fetch RKE2 image
+  - echo "Running RKE2 Installer"
+  - 'curl -sfL https://get.rke2.io | INSTALL_RKE2_VERSION="v1.26.3+rke2r1" INSTALL_RKE2_TYPE="agent" sh -'
+  - echo "Starting node as an agent"
+  - systemctl enable rke2-agent.service
+  - echo "Creating /etc/rancher/rke2/"
+  - mkdir -p /etc/rancher/rke2/
+  - echo "Done"
