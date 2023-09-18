@@ -10,9 +10,12 @@ metadata:
           "interface": "capture0"
         }
       ]
+
 spec:
+  # Let's add a nodeSelector - this will ensure the pod is scheduled on node1.
   nodeSelector:
     kubernetes.io/hostname: node1
+
   containers:
   - name: ubuntu
     image: ubuntu
