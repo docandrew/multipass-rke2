@@ -17,8 +17,8 @@ spec:
     kubernetes.io/hostname: node1
 
   containers:
-  - name: ubuntu
-    image: ubuntu
+  - name: ubuntu-bsides
+    image: ghcr.io/docandrew/ubuntu-bsides
     command: ["/bin/bash", "-c", "while true; do sleep 3600; done;"]
     # workaround for capture interface being DOWN inside the pod.
     securityContext:

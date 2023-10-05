@@ -8,7 +8,6 @@ spec:
   hostNetwork: true
   dnsPolicy: ClusterFirstWithHostNet
   containers:
-  - name: ubuntu
-    image: ubuntu
+  - name: ubuntu-bsides
+    image: ghcr.io/docandrew/ubuntu-bsides
     command: ["/bin/bash", "-c", "while true; do sleep 3600; done;"]
-  
